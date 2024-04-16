@@ -7,6 +7,8 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING
       }
+    },{
+      timestamps: false // Disable timestamps
     });
   
     return Role;
