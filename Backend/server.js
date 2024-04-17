@@ -46,27 +46,30 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+
+
+
 // function to get test users
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
+// function initial() {
+//   Role.create({
+//     id: 1,
+//     name: "user",
+//   });
 
-  Role.create({
-    id: 2,
-    name: "admin",
-  });
+//   Role.create({
+//     id: 2,
+//     name: "admin",
+//   });
 
-  Role.create({
-    id: 3,
-    name: "mess-admin",
-  });
-  Role.create({
-    id: 4,
-    name: "clean-admin",
-  });
-}
+//   Role.create({
+//     id: 3,
+//     name: "mess-admin",
+//   });
+//   Role.create({
+//     id: 4,
+//     name: "clean-admin",
+//   });
+// }
 
 //user:varun password:varun
 //user:chirag password:chirag

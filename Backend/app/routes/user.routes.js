@@ -19,14 +19,19 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
+    "/api/test/m-admin",
+    [authJwt.verifyToken, authJwt.isMessAdmin],
+    controller.messAdminBoard
   );
 
   app.get(
     "/api/test/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
+  );
+  app.get(
+    "/api/test/c-admin",
+    [authJwt.verifyToken, authJwt.isCleanAdmin],
+    controller.cleanAdminBoard
   );
 };
