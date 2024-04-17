@@ -10,11 +10,13 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Save User to Database
-  User.create({
+  if(req.body){
+    User.create({
+    id:req.body.usn,
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
-  })
+  })  
     .then(user => {
       if (req.body.roles) {
         Role.findAll({
@@ -38,6 +40,9 @@ exports.signup = (req, res) => {
     .catch(err => {
       res.status(500).send({ message: err.message });
     });
+  } else {
+    console.log("Did not recieve");
+  }
 };
 
 exports.signin = (req, res) => {

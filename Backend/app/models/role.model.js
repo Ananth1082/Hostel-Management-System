@@ -1,15 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
-    const Role = sequelize.define("roles", {
+  const Role = sequelize.define(
+    "roles",
+    {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
       },
       name: {
-        type: Sequelize.STRING
-      }
-    },{
-      timestamps: false // Disable timestamps
-    });
-  
-    return Role;
-  };
+        type: Sequelize.STRING,
+      },
+    },
+    {
+      timestamps: false, // Disable timestamps
+    }
+  );
+
+  return Role;
+};

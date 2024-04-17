@@ -125,15 +125,12 @@ exports.updateRoom = async (req, res) => {
     }
 
     // Extract updated room details from request body
-    const { capacity,occupants1,occupants2 } = req.body;
+    const { capacity, occupants1, occupants2 } = req.body;
 
     // Update room details
-    if(capacity)
-      room.capacity = capacity;
-    if(occupants1)
-      room.occupants1 = occupants1;
-    if(occupants2)
-      room.occupants2 = occupants2;
+    if (capacity) room.capacity = capacity;
+    if (occupants1) room.occupants1 = occupants1;
+    if (occupants2) room.occupants2 = occupants2;
     // Update other properties as needed
 
     // Save the updated room
