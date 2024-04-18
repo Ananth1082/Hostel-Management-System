@@ -32,7 +32,7 @@ const Role = db.role;
 // });
 
 //Save changes to the database
-db.sequelize.sync();
+// db.sequelize.sync();
 
 // routes
 require("./app/routes/auth.routes")(app);

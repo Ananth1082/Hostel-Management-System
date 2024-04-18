@@ -25,6 +25,7 @@ db.coupon = require("../models/coupon.model.js")(sequelize, Sequelize);
 db.ticket = require("../models/ticket.model.js")(sequelize, Sequelize);
 db.attendance = require("../models/attendance.model.js")(sequelize, Sequelize);
 db.leave = require("../models/leave.model.js")(sequelize, Sequelize);
+db.notification = require("../models/notification.model.js")(sequelize, Sequelize);
 
 /**** Associations ****/
 db.role.belongsToMany(db.user, {
@@ -53,6 +54,8 @@ db.attendance.belongsTo(db.user);
 db.user.hasMany(db.attendance, {
   foreignKey: "userId",
 });
+
+db
 /**********************/
 
 db.ROLES = ["user", "admin", "mess-admin", "clean-admin"];
