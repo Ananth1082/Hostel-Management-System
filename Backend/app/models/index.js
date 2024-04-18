@@ -23,6 +23,8 @@ db.room = require("../models/room.model.js")(sequelize, Sequelize);
 db.menu = require("../models/menu.model.js")(sequelize, Sequelize);
 db.coupon = require("../models/coupon.model.js")(sequelize, Sequelize);
 db.ticket = require("../models/ticket.model.js")(sequelize, Sequelize);
+db.attendance = require("../models/attendance.model.js")(sequelize, Sequelize);
+db.leave = require("../models/leave.model.js")(sequelize, Sequelize);
 
 /**** Associations ****/
 db.role.belongsToMany(db.user, {
@@ -44,4 +46,5 @@ db.ticket.belongsTo(db.coupon);
 
 db.ROLES = ["user", "admin", "mess-admin", "clean-admin"];
 db.MEALS = ["Breakfast", "Lunch", "Tea", "Dinner"];
+db.LEAVETYPE = ["Casual", "Regular", "End of Semester", "Medical", "Others"];
 module.exports = db;

@@ -26,13 +26,13 @@ const db = require("./app/models");
 const Role = db.role;
 
 // Remove changes from the database
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Db');
-//   initial();
-// });
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});
 
 //Save changes to the database
-db.sequelize.sync();
+// db.sequelize.sync();
 
 // routes
 require("./app/routes/auth.routes")(app);
