@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
       time: {
         type: Sequelize.ENUM("Breakfast", "Lunch", "Tea", "Dinner"),
         allowNull: false,
-        primaryKey:true
+        primaryKey: true,
       },
       day: {
         type: Sequelize.ENUM(
@@ -17,12 +17,12 @@ module.exports = (sequelize, Sequelize) => {
           "Saturday"
         ),
         allowNull: false,
-        primaryKey:true
+        primaryKey: true,
       },
       mess_type: {
         type: Sequelize.ENUM("North", "South"),
-        primaryKey:true,
-        allowNull:true
+        primaryKey: true,
+        allowNull: true,
       },
       description: {
         type: Sequelize.STRING,
@@ -30,9 +30,7 @@ module.exports = (sequelize, Sequelize) => {
       },
     },
     {
-      
       timestamps: false,
-      
     }
   );
 

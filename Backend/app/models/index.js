@@ -22,7 +22,9 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.room = require("../models/room.model.js")(sequelize, Sequelize);
 db.menu = require("../models/menu.model.js")(sequelize, Sequelize);
 db.coupon = require("../models/coupon.model.js")(sequelize, Sequelize);
+db.ticket = require("../models/ticket.model.js")(sequelize, Sequelize);
 
+/**** Associations ****/
 db.role.belongsToMany(db.user, {
   through: "user_roles",
 });
@@ -30,6 +32,16 @@ db.user.belongsToMany(db.role, {
   through: "user_roles",
 });
 
-db.ROLES = ["user", "admin", "mess-admin", "clean-admin"];
+db.user.hasOne(db.coupon, {
+  foreignKey: "userId",
+});
+db.coupon.belongsTo(db.user);
+db.coupon.hasMany(db.ticket, {
+  foreignKey: "couponCode",
+});
+db.ticket.belongsTo(db.coupon);
+/**********************/
 
+db.ROLES = ["user", "admin", "mess-admin", "clean-admin"];
+db.MEALS = ["Breakfast", "Lunch", "Tea", "Dinner"];
 module.exports = db;

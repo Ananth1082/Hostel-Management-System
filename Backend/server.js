@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 const db = require("./app/models");
 const Role = db.role;
 
-//Remove changes from the database
+// Remove changes from the database
 // db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Db');
 //   initial();
@@ -39,6 +39,7 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/room.routes")(app);
 require("./app/routes/menu.routes")(app);
+require("./app/routes/coupon.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -50,26 +51,23 @@ app.listen(PORT, () => {
 
 
 // function to get test users
-// function initial() {
-//   Role.create({
-//     id: 1,
-//     name: "user",
-//   });
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user",
+  });
 
-//   Role.create({
-//     id: 2,
-//     name: "admin",
-//   });
+  Role.create({
+    id: 2,
+    name: "admin",
+  });
 
-//   Role.create({
-//     id: 3,
-//     name: "mess-admin",
-//   });
-//   Role.create({
-//     id: 4,
-//     name: "clean-admin",
-//   });
-// }
-
-//user:varun password:varun
-//user:chirag password:chirag
+  Role.create({
+    id: 3,
+    name: "mess-admin",
+  });
+  Role.create({
+    id: 4,
+    name: "clean-admin",
+  });
+}

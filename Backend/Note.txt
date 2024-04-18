@@ -1,4 +1,4 @@
 Remaining Things
 -Make occupants1 & occupants2 of room as foreign key(LOW)
--Meal Coupons
+-Attendance and Leave Management
     
