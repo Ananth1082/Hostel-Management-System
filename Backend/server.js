@@ -26,13 +26,13 @@ const db = require("./app/models");
 const Role = db.role;
 
 // Remove changes from the database
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync Db');
-  initial();
-});
+// db.sequelize.sync({force: true}).then(() => {
+//   console.log('Drop and Resync Db');
+//   initial();
+// });
 
 //Save changes to the database
-// db.sequelize.sync();
+db.sequelize.sync();
 
 // routes
 require("./app/routes/auth.routes")(app);
@@ -40,6 +40,7 @@ require("./app/routes/user.routes")(app);
 require("./app/routes/room.routes")(app);
 require("./app/routes/menu.routes")(app);
 require("./app/routes/coupon.routes")(app);
+require("./app/routes/attendance.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -41,7 +41,18 @@ db.coupon.belongsTo(db.user);
 db.coupon.hasMany(db.ticket, {
   foreignKey: "couponCode",
 });
+
 db.ticket.belongsTo(db.coupon);
+
+db.leave.belongsTo(db.user);
+db.user.hasMany(db.leave, {
+  foreignKey: "userId",
+});
+
+db.attendance.belongsTo(db.user);
+db.user.hasMany(db.attendance, {
+  foreignKey: "userId",
+});
 /**********************/
 
 db.ROLES = ["user", "admin", "mess-admin", "clean-admin"];
