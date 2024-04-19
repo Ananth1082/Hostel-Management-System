@@ -1,5 +1,7 @@
 const db = require("../models"); // Import the Room model
 const Room = db.room;
+const User = db.user;
+const Room_User = db.room_user;
 // Controller function to handle GET request for /room
 exports.getAllRooms = async (req, res) => {
   try {
@@ -18,21 +20,23 @@ exports.getAllRooms = async (req, res) => {
 exports.createRoom = async (req, res) => {
   try {
     // Extract room details from request body
-    const { id, capacity, occupants1, occupants2 } = req.body;
+    const { id, block, type, occupants1, occupants2 } = req.body;
 
     // Check if roomNumber is already in use
     const existingRoom = await Room.findOne({ where: { id } });
     if (existingRoom) {
       return res.status(400).json({ error: "Room number already exists" });
     }
-
+    const inmate1 = await User.findOne({ where: { id: occupants1 } });
+    const inmate2 = await User.findOne({ where: { id: occupants2 } });
     // Create new room
     const newRoom = await Room.create({
       id: id,
-      capacity: capacity,
-      occupants1: occupants1,
-      occupants2: occupants2,
+      block: block,
+      type: type,
     });
+    inmate1.setRoom(newRoom);
+    inmate2.setRoom(newRoom);
     res
       .status(201)
       .json({ message: "Room created successfully", room: newRoom });
@@ -118,6 +122,7 @@ exports.updateRoom = async (req, res) => {
 
     // Find the room by ID
     let room = await Room.findByPk(id);
+    let room_user = await Room_User.findAll({ where: { room_id: id } });
 
     // If room is not found, send a 404 status code with an error message
     if (!room) {
@@ -125,16 +130,18 @@ exports.updateRoom = async (req, res) => {
     }
 
     // Extract updated room details from request body
-    const { capacity, occupants1, occupants2 } = req.body;
+    const { type, occupants1, occupants2 } = req.body;
 
     // Update room details
-    if (capacity) room.capacity = capacity;
-    if (occupants1) room.occupants1 = occupants1;
-    if (occupants2) room.occupants2 = occupants2;
+    if (type) room.type = type;
+    if (occupants1) room_user[0].userId = occupants1;
+    if (occupants2) room_user[1].userId = occupants2;
     // Update other properties as needed
 
     // Save the updated room
     await room.save();
+    await room_user[0].save();
+    await room_user[1].save();
 
     // Send success response
     res.json({ message: "Room updated successfully", room });

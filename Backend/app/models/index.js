@@ -25,9 +25,18 @@ db.coupon = require("../models/coupon.model.js")(sequelize, Sequelize);
 db.ticket = require("../models/ticket.model.js")(sequelize, Sequelize);
 db.attendance = require("../models/attendance.model.js")(sequelize, Sequelize);
 db.leave = require("../models/leave.model.js")(sequelize, Sequelize);
-db.notification = require("../models/notification.model.js")(sequelize, Sequelize);
-
+db.notification = require("../models/notification.model.js")(
+  sequelize,
+  Sequelize
+);
+db.roomservice = require("../models/roomservice.model.js")(
+  sequelize,
+  Sequelize
+);
+db.room_user = require("../models/room_users.model.js")(sequelize, Sequelize);
 /**** Associations ****/
+
+//user-role relationship
 db.role.belongsToMany(db.user, {
   through: "user_roles",
 });
@@ -35,30 +44,52 @@ db.user.belongsToMany(db.role, {
   through: "user_roles",
 });
 
+//room-user relationship
+db.room.belongsToMany(db.user, {
+  through: "room_users",
+});
+db.user.hasOne(db.room, { foreignKey: "userId" });
+
+//coupon-user relationship
 db.user.hasOne(db.coupon, {
   foreignKey: "userId",
 });
 db.coupon.belongsTo(db.user);
+
+//coupon-ticket relationship
 db.coupon.hasMany(db.ticket, {
   foreignKey: "couponCode",
 });
-
 db.ticket.belongsTo(db.coupon);
 
+//leave-user relationship
 db.leave.belongsTo(db.user);
 db.user.hasMany(db.leave, {
   foreignKey: "userId",
 });
 
+//attendance-user relationship
 db.attendance.belongsTo(db.user);
 db.user.hasMany(db.attendance, {
   foreignKey: "userId",
 });
 
-db
+//roomservice-user-room relationship
+db.roomservice.belongsTo(db.user);
+db.user.hasMany(db.roomservice, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+});
+db.roomservice.belongsTo(db.room);
+db.room.hasMany(db.roomservice, {
+  foreignKey: "roomId",
+  onDelete: "CASCADE",
+});
+
 /**********************/
 
 db.ROLES = ["user", "admin", "mess-admin", "clean-admin"];
 db.MEALS = ["Breakfast", "Lunch", "Tea", "Dinner"];
 db.LEAVETYPE = ["Casual", "Regular", "End of Semester", "Medical", "Others"];
+db.ROOMTYPE = ["Single-Non-Ac", "Double-Non-Ac", "Single-AC", "Double-AC"];
 module.exports = db;

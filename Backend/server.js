@@ -42,6 +42,7 @@ require("./app/routes/menu.routes")(app);
 require("./app/routes/coupon.routes")(app);
 require("./app/routes/attendance.routes")(app);
 require("./app/routes/notification.routes")(app);
+require("./app/routes/roomservice.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -7,20 +7,20 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false,
         unique: true,
+        validate:{
+          isValid(value){
+            if(99<value && value<1000)
+              throw new Error("Invalid Room ID")
+          }
+        }
       },
-      capacity: {
-        type: Sequelize.INTEGER,
+      block: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
-      occupants1: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        unique: true,
-      },
-      occupants2: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        unique: true,
+      type: {
+        type: Sequelize.ENUM("Single-AC", "Double-AC","Single-Non-Ac","Double-Non-Ac" ),
+        allowNull: false,
       },
       // Add more properties as needed
     },
