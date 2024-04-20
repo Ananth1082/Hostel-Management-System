@@ -178,7 +178,7 @@ export default function Dashboard() {
               <Smile className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{user.username}</div>
+              <div className="text-2xl font-bold"></div>
               <p className="text-xs text-muted-foreground">
                 +20.1% from last month
               </p>

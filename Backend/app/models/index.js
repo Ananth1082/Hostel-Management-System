@@ -48,7 +48,7 @@ db.user.belongsToMany(db.role, {
 db.room.belongsToMany(db.user, {
   through: "room_users",
 });
-db.user.hasOne(db.room, { foreignKey: "userId" });
+db.user.hasOne(db.room);
 
 //coupon-user relationship
 db.user.hasOne(db.coupon, {

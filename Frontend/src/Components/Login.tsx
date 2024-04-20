@@ -4,7 +4,7 @@ import { Label } from "@/Components/ui/label";
 import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { Toaster, toast } from "sonner";
+import { Toaster, toast } from "sonner"; 
 let user:User
 
 type User={

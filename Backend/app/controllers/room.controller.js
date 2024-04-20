@@ -27,16 +27,27 @@ exports.createRoom = async (req, res) => {
     if (existingRoom) {
       return res.status(400).json({ error: "Room number already exists" });
     }
+
+    // Check if inmates exist
     const inmate1 = await User.findOne({ where: { id: occupants1 } });
     const inmate2 = await User.findOne({ where: { id: occupants2 } });
+    if (!inmate1 || !inmate2) {
+      return res
+        .status(400)
+        .json({ error: "One or both inmates do not exist" });
+    }
+
     // Create new room
     const newRoom = await Room.create({
       id: id,
       block: block,
       type: type,
     });
-    inmate1.setRoom(newRoom);
-    inmate2.setRoom(newRoom);
+
+    // Assign inmates to the room
+    await newRoom.addUsers([inmate1, inmate2]);
+
+    // Send success response
     res
       .status(201)
       .json({ message: "Room created successfully", room: newRoom });
@@ -121,8 +132,7 @@ exports.updateRoom = async (req, res) => {
     const { id } = req.params;
 
     // Find the room by ID
-    let room = await Room.findByPk(id);
-    let room_user = await Room_User.findAll({ where: { room_id: id } });
+    let room = await Room.findByPk(id, { include: User });
 
     // If room is not found, send a 404 status code with an error message
     if (!room) {
@@ -134,14 +144,15 @@ exports.updateRoom = async (req, res) => {
 
     // Update room details
     if (type) room.type = type;
-    if (occupants1) room_user[0].userId = occupants1;
-    if (occupants2) room_user[1].userId = occupants2;
-    // Update other properties as needed
+
+    // Update occupants
+    if (occupants1) {
+      await room.setUsers([occupants1]);
+      if (occupants2) await room.addUsers([occupants2]);
+    }
 
     // Save the updated room
     await room.save();
-    await room_user[0].save();
-    await room_user[1].save();
 
     // Send success response
     res.json({ message: "Room updated successfully", room });

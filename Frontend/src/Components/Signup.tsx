@@ -12,6 +12,7 @@ type User={
 }
 function Signup() {
   const [formData, setFormData] = useState({
+    usn:"",
     username: "",
     email: "",
     password: "",
@@ -26,7 +27,7 @@ function Signup() {
       [name]: value,
     }));
   };
-  const handleLogin = async (e: any) => {
+  const handleSignup = async (e: any) => {
     e.preventDefault();
     console.log(formData);
     console.log(JSON.stringify(formData));
@@ -70,6 +71,17 @@ function Signup() {
             </p>
           </div>
           <div className="grid gap-4">
+          <div className="grid gap-2">
+              <Label htmlFor="USN">USN</Label>
+              <Input
+                type="text"
+                id="usn"
+                name="usn"
+                value={formData.usn}
+                onChange={handleChange}
+                required
+              />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="Username">Username</Label>
               <Input
@@ -105,7 +117,7 @@ function Signup() {
                 required
               />
             </div>
-            <Button className="w-full" type="submit" onClick={handleLogin}>
+            <Button className="w-full" type="submit" onClick={handleSignup}>
               Sign up
             </Button>
             <Button variant="outline" className="w-full">
