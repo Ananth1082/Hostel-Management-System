@@ -131,18 +131,18 @@ exports.checkCoupon = async (req, res) => {
       })
       .then((ticket) => {
         if (!ticket) {
-          res.status(400).json({ message: "Coupon not found" });
+          res.status(401).json({ message: "Coupon not found" });
         } else {
           if (!ticket.isAvailable) {
-            res.status(300).json({ message: "Coupon already used" });
+            res.status(301).json({ message: "Coupon already used" });
           } else {
-            res.status(200).json({ message: "Coupon is valid" });
+            res.status(201).json({ message: "Coupon is valid" });
             ticket.update({ isAvailable: false });
           }
         }
       });
   } catch (error) {
     console.error("Error checking coupon:", error);
-    res.status(500).json({ error: "Failed to check coupon" });
+    res.status(501).json({ error: "Failed to check coupon" });
   }
 };
