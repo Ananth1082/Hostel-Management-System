@@ -3,12 +3,16 @@ import Authenticate from "./Pages/Authenticate";
 import { Signup } from "./Components/Signup";
 import { Login } from "./Components/Login";
 import Homepage from "./Pages/Homepage";
+import Dashboard from "./Pages/admin/hostel-admin/dashboard";
+import Rooms from "./Pages/admin/hostel-admin/rooms";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Homepage/>} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/rooms" element={<Rooms />} />
         <Route path="auth" element={<Authenticate />}>
           <Route path="signup" element={<Signup />} />
           <Route path="signin" element={<Login />} />

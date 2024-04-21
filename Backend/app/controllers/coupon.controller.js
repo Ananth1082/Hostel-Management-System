@@ -3,6 +3,7 @@ const {generateRandomString} = require("../Helper/genrateRandomString");
 const coupon = db.coupon;
 const ticket = db.ticket;
 
+
 exports.getUserCoupon = async (req, res) => {
   try {
     const { userId } = req.body;
