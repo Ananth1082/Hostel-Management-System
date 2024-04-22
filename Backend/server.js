@@ -3,9 +3,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-
+const { init } = require("./PopulateDB/init");
 var corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "http://localhost:5174",
 };
 
 app.use(cors(corsOptions));
@@ -23,16 +23,17 @@ app.get("/", (req, res) => {
 });
 
 const db = require("./app/models");
-const Role = db.role;
 
 // Remove changes from the database
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Db');
-//   initial();
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync Db");
+//   init();
 // });
 
 //Save changes to the database
-db.sequelize.sync();
+db.sequelize.sync().then(() => {
+  console.log("Resync Db");
+});;
 
 // routes
 require("./app/routes/auth.routes")(app);
@@ -51,23 +52,3 @@ app.listen(PORT, () => {
 });
 
 // function to get test users
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
-
-  Role.create({
-    id: 2,
-    name: "admin",
-  });
-
-  Role.create({
-    id: 3,
-    name: "mess-admin",
-  });
-  Role.create({
-    id: 4,
-    name: "clean-admin",
-  });
-}

@@ -1,0 +1,160 @@
+exports.userList = [
+  {
+    usn: "NNM22CS001",
+    username: "Ananth Shetty",
+    email: "ananth.shetty@example.com",
+    password: "password123",
+    roles: ["admin", "mess-admin", "clean-admin"],
+  },
+  {
+    usn: "NNM22CS002",
+    username: "Abhi Kamath",
+    email: "abhi.kamath@example.com",
+    password: "password123",
+  },
+  {
+    usn: "NNM22CS003",
+    username: "Abhishek",
+    email: "abhishek@example.com",
+    password: "password123",
+  },
+  {
+    usn: "NNM22CS004",
+    username: "Kartik",
+    email: "kartik@example.com",
+    password: "password123",
+  },
+  {
+    usn: "NNM22CS005",
+    username: "Amit Sharma",
+    email: "amit.sharma@example.com",
+    password: "password123",
+  },
+  {
+    usn: "NNM22CS006",
+    username: "Akhil Manoj",
+    email: "akhil.manoj@example.com",
+    password: "password123",
+    roles: ["admin", "mess-admin"],
+  },
+  {
+    usn: "NNM22CS007",
+    username: "john_doe",
+    email: "john.doe@example.com",
+    password: "password123",
+    roles: ["admin"],
+  },
+  {
+    usn: "NNM22CS008",
+    username: "jane_doe",
+    email: "jan.doe@example.com",
+    password: "password123",
+  },
+  {
+    usn: "NNM22CS024",
+    username: "Scott Bennett",
+    email: "cif@al.edu",
+    password: "password123",
+  },
+  {
+    usn: "NNM22CS038",
+    username: "Olga Moore",
+    email: "pussavu@ara.gn",
+    password: "password123",
+  }, {
+    usn: "NNM22CS049",
+    username: "Mabelle Tyler",
+    email: "agerot@fumri.is",
+    password: "password123",
+  }, {
+    usn: "NNM22CS091",
+    username: "Sean McGuire",
+    email: "fucoh@osiza.fo",
+    password: "password123",
+  }, {
+    usn: "NNM22CS030",
+    username: "Oscar Sims",
+    email: "asifuow@fiofsu.ro",
+    password: "password123",
+  }, {
+    usn: "NNM22CS097",
+    username: "Jeanette Maxwell",
+    email: "titji@umo.sr",
+    password: "password123",
+  }, {
+    usn: "NNM22CS067",
+    username: "Ola Doyle",
+    email: "pi@hikonu.mn",
+    password: "password123",
+  }, {
+    usn: "NNM22CS086",
+    username: "Chris Copeland",
+    email: "koupatot@leh.mr",
+    password: "password123",
+  }, {
+    usn: "NNM22CS012",
+    username: "Lloyd Page",
+    email: "zegjet@mig.tm",
+    password: "password123",
+  }, {
+    usn: "NNM22CS041",
+    username: "Elnora Logan",
+    email: "gapwapeb@gueg.net",
+    password: "password123",
+  }, {
+    usn: "NNM22CS028",
+    username: "Adam Roberson",
+    email: "envomron@lu.io",
+    password: "password123",
+  }, {
+    usn: "NNM22CS014",
+    username: "Myrtie Hammond",
+    email: "ec@ciwmokbop.ch",
+    password: "password123",
+  }, {
+    usn: "NNM22CS020",
+    username: "Tom Swanson",
+    email: "gip@rihave.ua",
+    password: "password123",
+  }, {
+    usn: "NNM22CS029",
+    username: "Philip Moran",
+    email: "zunbil@itecu.in",
+    password: "password123",
+  }, {
+    usn: "NNM22CS095",
+    username: "Allen Griffith",
+    email: "tofo@toput.mc",
+    password: "password123",
+  }, {
+    usn: "NNM22CS036",
+    username: "Helen Fitzgerald",
+    email: "zerju@cidag.se",
+    password: "password123",
+  }, {
+    usn: "NNM22CS015",
+    username: "Danny Schneider",
+    email: "bafiki@litraf.tj",
+    password: "password123",
+  }, {
+    usn: "NNM22CS044",
+    username: "Ada Haynes",
+    email: "zeetfiz@roossah.kn",
+    password: "password123",
+  }, {
+    usn: "NNM22CS063",
+    username: "Ernest Holt",
+    email: "jiloak@pub.si",
+    password: "password123",
+  }, {
+    usn: "NNM22CS083",
+    username: "Lucille Hayes",
+    email: "lozroke@wabnubvi.sj",
+    password: "password123",
+  }, {
+    usn: "NNM22CS062",
+    username: "Adrian Watson",
+    email: "cuh@ru.nc",
+    password: "password123",
+  },
+];

@@ -1,9 +1,7 @@
 import {
   ListFilter,
-  MoreHorizontal,
   PlusCircle,
   Search,
-  Table,
 } from "lucide-react";
 
 import {
@@ -25,18 +23,9 @@ import {
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
 import { Input } from "@/Components/ui/input";
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/Components/ui/table";
-import { Tabs, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import { useState, useEffect } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
+import { useState } from "react";
 import { ProfileAvatar } from "@/Components/hostel-admin/ProfileAvatar";
-import Status from "@/Components/hostel-admin/Status";
-import { Tab } from "../../../Components/hostel-admin/Tab";
 import {
   Card,
   CardContent,
@@ -48,23 +37,12 @@ import {
 import RoomsLayout from "@/Components/hostel-admin/RoomsLayout";
 import H2 from "@/Components/Typography/H2";
 import P from "@/Components/Typography/P";
+import RoomsList from "@/Components/hostel-admin/RoomsList";
+import UpdateRooms from "@/Components/hostel-admin/UpdateRooms";
 
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
 export default function Rooms() {
-  
   const [currentTab, setCurrentTab] = useState<string>("");
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/api/admin/allUsers") // replace with your actual API endpoint
-  //     .then((response) => response.json())
-  //     .then((data) => setUsers(data.users))
-  //     .catch((error) => console.error("Error:", error));
-  //   console.log(users);
-  // }, []);
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col ml-auto w-full">
@@ -117,11 +95,11 @@ export default function Rooms() {
           </DropdownMenu>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <Tabs defaultValue="layout">
+          <Tabs defaultValue="Layout">
             <div className="flex items-center">
               <TabsList>
                 <TabsTrigger
-                  value="layout"
+                  value="Layout"
                   onClick={() => {
                     setCurrentTab("Layout");
                   }}
@@ -144,7 +122,6 @@ export default function Rooms() {
                 >
                   Update Rooms
                 </TabsTrigger>
-                
               </TabsList>
               <div className="ml-auto flex items-center gap-2">
                 <DropdownMenu>
@@ -176,16 +153,28 @@ export default function Rooms() {
                 </Button>
               </div>
             </div>
-            <Card x-chunk="dashboard-06-chunk-0">
-              <CardHeader>
-                <CardTitle><H2>Rooms Layout</H2></CardTitle>
-                <CardDescription><P>This is the room arrangement for the main block</P></CardDescription>
-              </CardHeader>
-              <CardContent>
-                <RoomsLayout></RoomsLayout>
-              </CardContent>
-              <CardFooter></CardFooter>
-            </Card>
+            <TabsContent value="Layout">
+              <Card x-chunk="dashboard-06-chunk-0">
+                <CardHeader>
+                  <CardTitle>
+                    <H2>Rooms Layout</H2>
+                  </CardTitle>
+                  <CardDescription>
+                    <P>This is the room arrangement for the main block</P>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <RoomsLayout />
+                </CardContent>
+                <CardFooter></CardFooter>
+              </Card>
+            </TabsContent>
+            <TabsContent value="List">
+              <RoomsList></RoomsList>
+            </TabsContent>
+            <TabsContent value="Update Rooms">
+              <UpdateRooms></UpdateRooms>
+            </TabsContent>
           </Tabs>
         </main>
       </div>
