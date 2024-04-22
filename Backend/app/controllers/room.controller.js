@@ -1,3 +1,4 @@
+const { NUMBER } = require("sequelize");
 const db = require("../models"); // Import the Room model
 const Room = db.room;
 const User = db.user;
@@ -7,9 +8,13 @@ exports.getAllRooms = async (req, res) => {
   try {
     // Fetch all rooms from the database
     const rooms = await Room.findAll();
+    const roomList = await Promise.all(rooms.map(async (room) => {
+      const inmates = await room.getUsers({attributes: ['id','username']});
+      return { ...room.toJSON(),inmates };
+    }));
 
     // Send the list of rooms as a JSON response
-    res.json(rooms);
+    res.status(200).json(roomList);
   } catch (error) {
     // If an error occurs, send an error response
     console.error("Error fetching rooms:", error);
@@ -20,7 +25,7 @@ exports.getAllRooms = async (req, res) => {
 exports.createRoom = async (req, res) => {
   try {
     // Extract room details from request body
-    const { id, block, type } = req.body;
+    const { id, block, type, capacity } = req.body;
 
     // Check if roomNumber is already in use
     const existingRoom = await Room.findOne({ where: { id } });
@@ -33,6 +38,7 @@ exports.createRoom = async (req, res) => {
       id: Number(id),
       block: block,
       type: type,
+      capacity: Number(capacity),
     });
     res
       .status(201)
@@ -53,42 +59,30 @@ exports.addRoomMate = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+    const existingRoomMate = await Room_User.findOne({
+      where: { userId: userId },
+    });
+    if (existingRoomMate) {
+      return res.status(400).json({ error: "User already asigned a room" });
+    }
+    const numberOfOccupants = await room.countUsers();
+    if (numberOfOccupants == room.capacity) {
+      return res.status(400).json({ error: "Room is full" });
+    }
     await room.addUsers([user]);
-    res.json({ message: "User added to room successfully", });
+    res.json({ message: "User added to room successfully" });
   } catch (error) {
     console.error("Error adding user to room:", error);
     res.status(500).json({ error: "Failed to add user to room" });
   }
 };
-exports.getRoomByIDParams = async (req, res) => {
-  try {
-    // Extract room ID from request parameters
-    const { id } = req.params;
-
-    // Find the room by ID
-    const room = await Room.findByPk(id);
-
-    // If room is not found, send a 404 status code with an error message
-    if (!room) {
-      return res.status(404).json({ error: "Room not found" });
-    }
-
-    // If room is found, send it as a JSON response
-    res.json(room);
-  } catch (error) {
-    // If an error occurs, send a 500 status code with an error message
-    console.error("Error retrieving room by ID:", error);
-    res.status(500).json({ error: "Failed to retrieve room" });
-  }
-};
 
 exports.getRoomByID = async (req, res) => {
   try {
-    // Extract room ID from request parameters
-    const { id } = req.body.id;
-
+    // Extract room ID from request body
+    const { id } = req.body;
     // Find the room by ID
-    const room = await Room.findByPk(id);
+    const room = await Room.findOne({ where: { id } });
 
     // If room is not found, send a 404 status code with an error message
     if (!room) {
@@ -96,7 +90,7 @@ exports.getRoomByID = async (req, res) => {
     }
 
     // If room is found, send it as a JSON response
-    res.json(room);
+    res.status(200).json({ message: "Room found successfully", room });
   } catch (error) {
     // If an error occurs, send a 500 status code with an error message
     console.error("Error retrieving room by ID:", error);
@@ -107,7 +101,7 @@ exports.getRoomByID = async (req, res) => {
 exports.deleteRoom = async (req, res) => {
   try {
     // Extract room ID from request parameters
-    const { id } = req.params;
+    const { id } = req.body;
 
     // Find the room by ID
     const room = await Room.findByPk(id);
@@ -132,31 +126,15 @@ exports.deleteRoom = async (req, res) => {
 exports.updateRoom = async (req, res) => {
   try {
     // Extract room ID from request parameters
-    const { id } = req.params;
+    const { id,capacity,type,block } = req.body;
 
     // Find the room by ID
-    let room = await Room.findByPk(id, { include: User });
+    let room = await Room.update({capacity:capacity,type:type,block:block},{where:{id:id}})
 
     // If room is not found, send a 404 status code with an error message
     if (!room) {
       return res.status(404).json({ error: "Room not found" });
     }
-
-    // Extract updated room details from request body
-    const { type, occupants1, occupants2 } = req.body;
-
-    // Update room details
-    if (type) room.type = type;
-
-    // Update occupants
-    if (occupants1) {
-      await room.setUsers([occupants1]);
-      if (occupants2) await room.addUsers([occupants2]);
-    }
-
-    // Save the updated room
-    await room.save();
-
     // Send success response
     res.json({ message: "Room updated successfully", room });
   } catch (error) {
@@ -165,3 +143,27 @@ exports.updateRoom = async (req, res) => {
     res.status(500).json({ error: "Failed to update room" });
   }
 };
+exports.removeRoomMate = async (req, res) => {
+  try {
+    const { roomId, userId } = req.body;
+    const room = await Room.findByPk(roomId);
+    const user = await User.findByPk(userId);
+    if (!room) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const existingRoomMate = await Room_User.findOne({
+      where: { userId: userId },
+    });
+    if (!existingRoomMate) {
+      return res.status(400).json({ error: "User not asigned a room" });
+    }
+    await room.removeUser(user);
+    res.json({ message: "User removed from room successfully" });
+  } catch (error) {
+    console.error("Error removing user from room:", error);
+    res.status(500).json({ error: "Failed to remove user from room" });
+  }
+}

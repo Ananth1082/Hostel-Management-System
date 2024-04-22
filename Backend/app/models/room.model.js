@@ -21,7 +21,10 @@ module.exports = (sequelize, Sequelize) => {
         ),
         allowNull: false,
       },
-      // Add more properties as needed
+      capacity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     },
     {
       timestamps: false, // Disable timestamps
