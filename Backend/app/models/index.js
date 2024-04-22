@@ -46,7 +46,7 @@ db.user.belongsToMany(db.role, {
 
 //room-user relationship
 db.room.belongsToMany(db.user, {
-  through: "room_users",
+  through: "room_user",
 });
 db.user.hasOne(db.room);
 

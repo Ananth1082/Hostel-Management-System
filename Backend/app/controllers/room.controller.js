@@ -20,7 +20,7 @@ exports.getAllRooms = async (req, res) => {
 exports.createRoom = async (req, res) => {
   try {
     // Extract room details from request body
-    const { id, block, type, occupants1, occupants2 } = req.body;
+    const { id, block, type } = req.body;
 
     // Check if roomNumber is already in use
     const existingRoom = await Room.findOne({ where: { id } });
@@ -28,26 +28,12 @@ exports.createRoom = async (req, res) => {
       return res.status(400).json({ error: "Room number already exists" });
     }
 
-    // Check if inmates exist
-    const inmate1 = await User.findOne({ where: { id: occupants1 } });
-    const inmate2 = await User.findOne({ where: { id: occupants2 } });
-    if (!inmate1 || !inmate2) {
-      return res
-        .status(400)
-        .json({ error: "One or both inmates do not exist" });
-    }
-
     // Create new room
     const newRoom = await Room.create({
-      id: id,
+      id: Number(id),
       block: block,
       type: type,
     });
-
-    // Assign inmates to the room
-    await newRoom.addUsers([inmate1, inmate2]);
-
-    // Send success response
     res
       .status(201)
       .json({ message: "Room created successfully", room: newRoom });
@@ -56,7 +42,24 @@ exports.createRoom = async (req, res) => {
     res.status(500).json({ error: "Failed to create room" });
   }
 };
-
+exports.addRoomMate = async (req, res) => {
+  try {
+    const { roomId, userId } = req.body;
+    const room = await Room.findByPk(roomId);
+    const user = await User.findByPk(userId);
+    if (!room) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    await room.addUsers([user]);
+    res.json({ message: "User added to room successfully", });
+  } catch (error) {
+    console.error("Error adding user to room:", error);
+    res.status(500).json({ error: "Failed to add user to room" });
+  }
+};
 exports.getRoomByIDParams = async (req, res) => {
   try {
     // Extract room ID from request parameters

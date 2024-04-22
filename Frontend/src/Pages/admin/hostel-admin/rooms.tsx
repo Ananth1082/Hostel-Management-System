@@ -46,6 +46,8 @@ import {
   CardTitle,
 } from "@/Components/ui/card";
 import RoomsLayout from "@/Components/hostel-admin/RoomsLayout";
+import H2 from "@/Components/Typography/H2";
+import P from "@/Components/Typography/P";
 
 interface User {
   id: string;
@@ -53,16 +55,16 @@ interface User {
   email: string;
 }
 export default function Rooms() {
-  const [users, setUsers] = useState<User[]>([]);
+  
   const [currentTab, setCurrentTab] = useState<string>("");
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/admin/allUsers") // replace with your actual API endpoint
-      .then((response) => response.json())
-      .then((data) => setUsers(data.users))
-      .catch((error) => console.error("Error:", error));
-    console.log(users);
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8080/api/admin/allUsers") // replace with your actual API endpoint
+  //     .then((response) => response.json())
+  //     .then((data) => setUsers(data.users))
+  //     .catch((error) => console.error("Error:", error));
+  //   console.log(users);
+  // }, []);
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col ml-auto w-full">
@@ -77,7 +79,7 @@ export default function Rooms() {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <a href="#">User</a>
+                  <a href="#">Rooms</a>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -115,41 +117,34 @@ export default function Rooms() {
           </DropdownMenu>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <Tabs defaultValue="all">
+          <Tabs defaultValue="layout">
             <div className="flex items-center">
               <TabsList>
                 <TabsTrigger
-                  value="all"
+                  value="layout"
                   onClick={() => {
-                    setCurrentTab("All");
+                    setCurrentTab("Layout");
                   }}
                 >
-                  All
+                  Layout
                 </TabsTrigger>
                 <TabsTrigger
-                  value="active"
+                  value="List"
                   onClick={() => {
-                    setCurrentTab("Active");
+                    setCurrentTab("List");
                   }}
                 >
-                  Active
+                  List
                 </TabsTrigger>
                 <TabsTrigger
-                  value="student"
+                  value="Update Rooms"
                   onClick={() => {
-                    setCurrentTab("Student");
+                    setCurrentTab("Update Rooms");
                   }}
                 >
-                  Student
+                  Update Rooms
                 </TabsTrigger>
-                <TabsTrigger
-                  value="admin"
-                  onClick={() => {
-                    setCurrentTab("Admin");
-                  }}
-                >
-                  Admin
-                </TabsTrigger>
+                
               </TabsList>
               <div className="ml-auto flex items-center gap-2">
                 <DropdownMenu>
@@ -183,8 +178,8 @@ export default function Rooms() {
             </div>
             <Card x-chunk="dashboard-06-chunk-0">
               <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <CardDescription>Discription</CardDescription>
+                <CardTitle><H2>Rooms Layout</H2></CardTitle>
+                <CardDescription><P>This is the room arrangement for the main block</P></CardDescription>
               </CardHeader>
               <CardContent>
                 <RoomsLayout></RoomsLayout>

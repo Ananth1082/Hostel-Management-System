@@ -26,13 +26,13 @@ const db = require("./app/models");
 const Role = db.role;
 
 // Remove changes from the database
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Db');
-//   initial();
-// });
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});
 
 //Save changes to the database
-db.sequelize.sync();
+// db.sequelize.sync();
 
 // routes
 require("./app/routes/auth.routes")(app);
@@ -49,9 +49,6 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-
-
 
 // function to get test users
 function initial() {

@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
   const Room_User = sequelize.define('room_user'
   ,{
-    user_id: {
+    userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    room_id: {
+    roomId: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
