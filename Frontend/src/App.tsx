@@ -7,12 +7,14 @@ import Dashboard from "./Pages/admin/hostel-admin/user_dashboard";
 import Rooms from "./Pages/admin/hostel-admin/rooms";
 import Meals from "./Pages/student/Meals";
 import CouponsList from "./Pages/admin/mess-admin/coupons";
+import Page404 from "./Pages/Page404";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/404" element={<Page404 />} />
 
         <Route path="/rooms" element={<Rooms />} />
         <Route path="auth" element={<Authenticate />}>

@@ -1,11 +1,8 @@
-import {user as userLogin } from '../Components/Login'
-import {user as userSignup} from '../Components/Signup'
 import {
   Activity,
   ArrowUpRight,
   CircleUser,
   CreditCard,
-  DollarSign,
   Menu,
   Package2,
   Search,
@@ -42,9 +39,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/Components/ui/table";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { testUser } from "@/testUser";
 
 export default function Dashboard() {
-  const user = userLogin? userLogin:userSignup
+  const navigate = useNavigate();
+  // get user item from local storage
+  let user: any;
+  //convert user to object
+
+  //Route Gaurd
+  useEffect(() => {
+    if (user) {
+      user = JSON.parse(sessionStorage.getItem("user") || "{}");
+      console.log(user);
+      if (!testUser(user.accessToken)) {
+        navigate("/404");
+      }
+    }else {
+      navigate("/404");
+    }
+  }, []);
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -173,7 +190,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Welcome back!
+                Welcome back {user?.username}!
               </CardTitle>
               <Smile className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
@@ -228,9 +245,7 @@ export default function Dashboard() {
             <CardHeader className="flex flex-row items-center">
               <div className="grid gap-2">
                 <CardTitle>Notifications</CardTitle>
-                <CardDescription>
-                  Recent notifications.
-                </CardDescription>
+                <CardDescription>Recent notifications.</CardDescription>
               </div>
               <Button asChild size="sm" className="ml-auto gap-1">
                 <a href="#">
