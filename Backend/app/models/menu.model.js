@@ -14,7 +14,8 @@ module.exports = (sequelize, Sequelize) => {
           "Wednesday",
           "Thursday",
           "Friday",
-          "Saturday"
+          "Saturday",
+          "Sunday"
         ),
         allowNull: false,
         primaryKey: true,

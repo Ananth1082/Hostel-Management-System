@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const { init } = require("./PopulateDB/init");
 var corsOptions = {
-  origin: "http://localhost:5174",
+  origin: "http://localhost:5173",
 };
 
 app.use(cors(corsOptions));

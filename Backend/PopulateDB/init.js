@@ -4,9 +4,11 @@ const db = require("../app/models");
 const Role = db.role;
 const User = db.user;
 const Room = db.room;
+const Menu = db.menu;
 const { userList } = require("./users");
 const { roleList } = require("./roles");
 const { roomList } = require("./room");
+const { menuList } = require("./menu");
 exports.init = async () => {
   // Initialize the app
   genrateRoles();
@@ -15,6 +17,7 @@ exports.init = async () => {
   console.log("Roles are added");
   generateRooms();
   console.log("Rooms are added");
+  generateMenu();
 };
 
 function genrateUsers() {
@@ -64,5 +67,11 @@ function generateRooms() {
       type: room.type,
       block: room.block,
     });
+  });
+}
+
+function generateMenu() {
+  menuList.forEach((menu) => {
+    Menu.create(menu);
   });
 }
