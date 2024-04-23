@@ -1,9 +1,4 @@
-import {
-  ListFilter,
-  MoreHorizontal,
-  PlusCircle,
-  Search,
-} from "lucide-react";
+import { MoreHorizontal, PlusCircle, Search } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -16,7 +11,6 @@ import {
 import { Button } from "@/Components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -28,32 +22,80 @@ import { TableCell, TableRow } from "@/Components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/Components/ui/tabs";
 import { useState, useEffect } from "react";
 import { ProfileAvatar } from "@/Components/hostel-admin/ProfileAvatar";
-import Status from "@/Components/hostel-admin/Status";
 import { Tab } from "../../../Components/hostel-admin/Tab";
+import { User_Coupon } from "@/Types/User_Coupon";
+import { formatDate } from "date-fns";
+import FilterListButton from "@/Components/FilterListButton";
+import { TabsContent } from "@radix-ui/react-tabs";
+import QrReader from "@/Components/mess-admin/QrCodeReader";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/Components/ui/card";
+import H2 from "@/Components/Typography/H2";
+import H3 from "@/Components/Typography/H3";
 
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
 export default function CouponsList() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users_coupon, setUserscoupon] = useState<User_Coupon[]>([]);
   const [currentTab, setCurrentTab] = useState<string>("");
-  const renderUsers = () => {
-    return users.map((user: User) => {
+  const [filterBy, setFliterBy] = useState<string>("None");
+  const deleteCoupon = (couponCode: string) => {
+    fetch("http://localhost:8080/coupon/mess-admin/deleteCoupon", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ couponCode }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message === "Coupon deleted successfully") {
+          fetch("http://localhost:8080/coupon/mess-admin/allCoupons") // replace with your actual API endpoint
+            .then((response) => response.json())
+            .then((data) => setUserscoupon(data.coupons))
+            .catch((error) => console.error("Error:", error));
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:8080/coupon/mess-admin/allCoupons") // replace with your actual API endpoint
+      .then((response) => response.json())
+      .then((data) => setUserscoupon(data.coupons))
+      .catch((error) => console.error("Error:", error));
+    console.log(users_coupon);
+  }, []);
+  const renderUsersAndCoupons = () => {
+    let filtered_users_coupon;
+    if (filterBy !== "None") {
+      filtered_users_coupon = users_coupon?.filter(
+        (user_coupon: User_Coupon) => {
+          return user_coupon.type === filterBy;
+        }
+      );
+    } else {
+      filtered_users_coupon = users_coupon;
+    }
+    return filtered_users_coupon?.map((user_coupon: User_Coupon) => {
       return (
-        <TableRow key={user.id}>
-          <TableCell className="hidden sm:table-cell">
-            <ProfileAvatar imgSrc="https://github.com/shadcn.png"></ProfileAvatar>
-          </TableCell>
-          <TableCell className="font-medium">{user.id}</TableCell>
-          <TableCell>
-            <Status isOnline={true}></Status>
+        <TableRow key={user_coupon.userId}>
+          <TableCell className="font-medium">{user_coupon.userId}</TableCell>
+
+          <TableCell className="hidden md:table-cell">
+            {user_coupon.couponCode}
           </TableCell>
           <TableCell className="hidden md:table-cell">
-            {user.username}
+            {user_coupon.type}
           </TableCell>
-          <TableCell className="hidden md:table-cell">{user.email}</TableCell>
+          <TableCell className="hidden md:table-cell">
+            {formatDate(user_coupon.expirationDate, "LLL dd y")}
+          </TableCell>
           <TableCell>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -65,7 +107,13 @@ export default function CouponsList() {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    deleteCoupon(user_coupon.couponCode);
+                  }}
+                >
+                  Delete
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </TableCell>
@@ -74,13 +122,6 @@ export default function CouponsList() {
     });
   };
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/admin/allUsers") // replace with your actual API endpoint
-      .then((response) => response.json())
-      .then((data) => setUsers(data.users))
-      .catch((error) => console.error("Error:", error));
-    console.log(users);
-  }, []);
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col ml-auto w-full">
@@ -133,64 +174,33 @@ export default function CouponsList() {
           </DropdownMenu>
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <Tabs defaultValue="all">
+          <Tabs defaultValue="List">
             <div className="flex items-center">
               <TabsList>
                 <TabsTrigger
-                  value="all"
+                  value="List"
                   onClick={() => {
-                    setCurrentTab("All");
+                    setCurrentTab("List");
                   }}
                 >
-                  All
+                  List
                 </TabsTrigger>
+                
                 <TabsTrigger
-                  value="active"
+                  value="Check Coupon"
                   onClick={() => {
-                    setCurrentTab("Active");
+                    setCurrentTab("Check Coupon");
                   }}
                 >
-                  Active
-                </TabsTrigger>
-                <TabsTrigger
-                  value="student"
-                  onClick={() => {
-                    setCurrentTab("Student");
-                  }}
-                >
-                  Student
-                </TabsTrigger>
-                <TabsTrigger
-                  value="admin"
-                  onClick={() => {
-                    setCurrentTab("Admin");
-                  }}
-                >
-                  Admin
+                  Check Coupon
                 </TabsTrigger>
               </TabsList>
               <div className="ml-auto flex items-center gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="h-8 gap-1">
-                      <ListFilter className="h-3.5 w-3.5" />
-                      <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                        Filter
-                      </span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuCheckboxItem checked>
-                      Active
-                    </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>
-                      Archived
-                    </DropdownMenuCheckboxItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <FilterListButton
+                  setFilterBy={setFliterBy}
+                  title="Filter"
+                  filterItems={["None", "North", "South"]}
+                />
                 <Button size="sm" className="h-8 gap-1">
                   <PlusCircle className="h-3.5 w-3.5" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -201,37 +211,35 @@ export default function CouponsList() {
             </div>
 
             <Tab
-              renderCells={renderUsers}
-              tabValue="all"
-              tabTitle="All"
+              renderCells={renderUsersAndCoupons}
+              tabValue="List"
+              tabTitle="List"
               tabDiscription="List of all the users"
-              tableHeader={["USN", "Status", "Name", "Email"]}
+              tableHeader={[
+                "USN",
+                "Coupon Code",
+                "Mess Type",
+                "Expiry Date",
+                "Action",
+              ]}
             />
-            <Tab
-              renderCells={renderUsers}
-              tabValue="active"
-              tabTitle="Active"
-              tabDiscription="List of all the active users"
-              tableHeader={["USN", "Status", "Name", "Email"]}
-            />
-            <Tab
-              renderCells={renderUsers}
-              tabValue="student"
-              tabTitle="Students"
-              tabDiscription="List of all the students"
-              tableHeader={["USN", "Status", "Name", "Email"]}
-            />
-            <Tab
-              renderCells={renderUsers}
-              tabValue="admin"
-              tabTitle="Admins"
-              tabDiscription="List of all the admins"
-              tableHeader={["USN", "Status", "Name", "Email"]}
-            />
+
+            <TabsContent value="Check Coupon">
+              <Card x-chunk="dashboard-06-chunk-0">
+                <CardHeader>
+                  <CardTitle><H2>Scan the Qr code </H2></CardTitle>
+                  <CardDescription><H3>to check your meal ticket</H3></CardDescription>
+                </CardHeader>
+                <CardContent className="flex">
+                  
+                  <QrReader />
+                </CardContent>
+                <CardFooter></CardFooter>
+              </Card>
+            </TabsContent>
           </Tabs>
         </main>
       </div>
     </div>
   );
 }
-

@@ -21,6 +21,7 @@ interface Props {
   tabTitle: string;
   tabDiscription: string;
   tableHeader: string[];
+  isImage?: boolean;
 }
 
 export function Tab(props: Props) {
@@ -40,9 +41,9 @@ export function Tab(props: Props) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="hidden w-[100px] sm:table-cell">
+                {props.isImage?<TableHead className="hidden w-[100px] sm:table-cell">
                   <span className="sr-only">Image</span>
-                </TableHead>
+                </TableHead>:""}
                 {renderHeader()}
                 <TableHead>
                   <span className="sr-only">Actions</span>
