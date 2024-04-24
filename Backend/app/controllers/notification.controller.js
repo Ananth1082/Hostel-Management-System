@@ -19,7 +19,7 @@ exports.sendNotification = async (req, res) => {
 };
 exports.getNotifications = async (req, res) => {
   try {
-    const { recipientId } = req.body;
+    const { recipientId } = req.params;
     const userNotifications = await notification.findAll({
       where: { recipientId: recipientId },
     });
@@ -28,24 +28,24 @@ exports.getNotifications = async (req, res) => {
       userNotifications,
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve user notifications" });
+    res.status(500).json({ error: "Failed to retrieve user notifications" ,error:error.message});
   }
 };
 exports.markRead = async (req, res) => {
   try {
-    const { notificationId } = req.body;
+    const { notificationId } = req.params;
     await notification.update(
       { isRead: true },
       { where: { id: notificationId } }
     );
     res.status(201).json({ message: "Notification marked as read" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to mark notification as read" });
+    res.status(500).json({ error: "Failed to mark notification as read",error:error.message });
   }
 };
 exports.deleteNotification = async (req, res) => {
   try {
-    const { notificationId } = req.body;
+    const { notificationId } = req.params;
     await notification.destroy({ where: { id: notificationId } });
     res.status(201).json({ message: "Notification deleted successfully" });
   } catch (error) {

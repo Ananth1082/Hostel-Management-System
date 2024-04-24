@@ -5,10 +5,14 @@ const Role = db.role;
 const User = db.user;
 const Room = db.room;
 const Menu = db.menu;
+const Notification = db.notification
 const { userList } = require("./users");
 const { roleList } = require("./roles");
 const { roomList } = require("./room");
 const { menuList } = require("./menu");
+const { notificationList } = require("./notifications");
+
+
 exports.init = async () => {
   // Initialize the app
   genrateRoles();
@@ -18,10 +22,14 @@ exports.init = async () => {
   generateRooms();
   console.log("Rooms are added");
   generateMenu();
+  console.log("Notification to be added");
 };
 
-function genrateUsers() {
-  userList.forEach((user) => {
+exports.dependantData = async ()=>{
+  generateNotification();
+}
+const genrateUsers=  ()=> {
+ userList.forEach((user) => {
     User.create({
       id: user.usn,
       username: user.username,
@@ -74,4 +82,10 @@ function generateMenu() {
   menuList.forEach((menu) => {
     Menu.create(menu);
   });
+}
+
+function generateNotification(){
+  notificationList.forEach((note)=>{
+    Notification.create(note)
+  })
 }

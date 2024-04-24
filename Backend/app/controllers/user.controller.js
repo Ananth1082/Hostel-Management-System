@@ -37,3 +37,16 @@ exports.getUsers = async (_, res) => {
   }
 };
 
+exports.getUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findByPk(id);
+    if (!user) {
+      res.status(404).json({ message: "No user found" });
+    }
+    res.status(200).json({ message: "User found", user });
+  } catch (error) {
+    console.error("Error retriving user info ");
+    res.status(500).json({ error: error.message });
+  }
+};

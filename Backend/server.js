@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const { init } = require("./PopulateDB/init");
+const { init, dependantData } = require("./PopulateDB/init");
 var corsOptions = {
   origin: "http://localhost:5173",
 };
@@ -32,6 +32,7 @@ const db = require("./app/models");
 
 //Save changes to the database
 db.sequelize.sync().then(() => {
+  // dependantData();
   console.log("Resync Db");
 });;
 

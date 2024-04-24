@@ -39,7 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/Components/ui/table";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { testUser } from "@/testUser";
 
@@ -50,21 +50,21 @@ export default function Dashboard() {
   //convert user to object
 
   //Route Gaurd
-  useEffect(() => {
-    if (user) {
-      user = JSON.parse(sessionStorage.getItem("user") || "{}");
-      console.log(user);
-      if (!testUser(user.accessToken)) {
-        navigate("/404");
-      }
-    }else {
-      navigate("/404");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     user = JSON.parse(sessionStorage.getItem("user") || "{}");
+  //     console.log(user);
+  //     if (!testUser(user.accessToken)) {
+  //       navigate("/404");
+  //     }
+  //   }else {
+  //     navigate("/404");
+  //   }
+  // }, []);
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+      {/* <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <a
             href="#"
@@ -116,7 +116,7 @@ export default function Dashboard() {
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
-          {/* @ts-ignore */}
+          
           <SheetContent side="left">
             <nav className="grid gap-6 text-lg font-medium">
               <a
@@ -184,7 +184,7 @@ export default function Dashboard() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </header>
+      </header> */}
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-2">
           <Card>

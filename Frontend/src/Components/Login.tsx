@@ -14,7 +14,7 @@ type User = {
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
+  const [_, setError] = useState("");
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({

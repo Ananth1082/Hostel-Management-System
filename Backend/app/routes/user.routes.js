@@ -31,4 +31,5 @@ module.exports = function (app) {
     controller.cleanAdminBoard
   );
   app.get("/api/admin/allUsers", controller.getUsers);
+  app.get("/api/get/user/:id",controller.getUser)
 };
