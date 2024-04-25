@@ -1,7 +1,7 @@
 const controller = require("../controllers/coupon.controller");
 
 module.exports = function (app) {
-  app.post("/coupon/get", controller.getUserCoupon);
+  app.get("/coupon/get/:userId", controller.getUserCoupon);
   app.post("/coupon/create", controller.createCoupon);
   app.post("/coupon/release", controller.releaseCoupon);
   app.get("/coupon/mess-admin/allCoupons", controller.getAllCoupons);

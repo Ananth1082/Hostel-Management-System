@@ -27,15 +27,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/Components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
 import { Input } from "@/Components/ui/input";
 import { Progress } from "@/Components/ui/progress";
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
@@ -52,6 +43,7 @@ import Notification from "@/Components/user/Notification";
 import { useEffect, useState } from "react";
 import { SendNotification } from "@/Components/user/SendNotification";
 import FilterListButton from "@/Components/FilterListButton";
+import { useNavigate } from "react-router-dom";
 
 interface notify_response {
   id: number;
@@ -67,20 +59,30 @@ interface notify_response {
 }
 
 export function Dashboard() {
-  const recipientId = "NNM22CS002";
+  const navigate = useNavigate();
+
   const [notifications, setNotifications] = useState<
     notify_response[] | null
   >();
+  let userString = localStorage.getItem("user");
+  let user;
+  if (userString == null) navigate("/404");
+  else {
+    user = JSON.parse(userString);
+  }
+  const recipientId = user.id;
   const [filterBy, setFilterBy] = useState<string>("None");
   const [currentNotification, setCurrentNotofication] =
     useState<notify_response | null>(null);
   function handleClick(index: number) {
-    if (notifications!=undefined){
-      const notification = notifications.find((notification) => notification.id === index);
+    if (notifications != undefined) {
+      const notification = notifications.find(
+        (notification) => notification.id === index
+      );
       if (notification) {
         setCurrentNotofication(notification);
       }
-    }else return null;
+    } else return null;
   }
   const fetchNotifications = async () => {
     try {
@@ -117,7 +119,7 @@ export function Dashboard() {
     fetchNotifications();
   }, []);
   function renderNotifications() {
-    if(!notifications) return null;
+    if (!notifications) return null;
     return notifications.map((notification) => (
       <Notification
         key={notification.id}
@@ -132,7 +134,7 @@ export function Dashboard() {
     ));
   }
   function renderSentNotifications() {
-    if(!notifications) return null;
+    if (!notifications) return null;
     return notifications.map((notification) => (
       <Notification
         key={notification.id}
@@ -227,20 +229,19 @@ export function Dashboard() {
               className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
             />
           </div>
-          
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
               <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
                 <CardHeader className="pb-3">
-                  <CardTitle>Hello, Username 👋</CardTitle>
+                  <CardTitle>Hello, {user.username} 👋</CardTitle>
                   <CardDescription className="max-w-lg text-balance leading-relaxed">
                     Good Day, Check your notifications. <br />
                   </CardDescription>
                 </CardHeader>
                 <CardFooter className="grid grid-cols-2 gap-8 ">
-                  <SendNotification/>
+                  <SendNotification />
                   <Button>Edit profile</Button>
                 </CardFooter>
               </Card>
@@ -264,8 +265,11 @@ export function Dashboard() {
                   <TabsTrigger value="Sent">Sent</TabsTrigger>
                 </TabsList>
                 <div className="ml-auto flex items-center gap-2">
-                  <FilterListButton title={"Filter"} filterItems={["hostel-admin","mess-admin","room-service"]} setFilterBy={setFilterBy}
-                   />
+                  <FilterListButton
+                    title={"Filter"}
+                    filterItems={["hostel-admin", "mess-admin", "room-service"]}
+                    setFilterBy={setFilterBy}
+                  />
                 </div>
               </div>
               <TabsContent value="Received">
@@ -327,16 +331,17 @@ export function Dashboard() {
             </Tabs>
           </div>
           <div>
-            {currentNotification?<NotificationInfo
-              id={currentNotification?.id}
-              title={currentNotification?.title}
-              createdAt={currentNotification?.createdAt}
-              senderName={currentNotification?.senderName}
-              sendEmail={currentNotification?.senderEmail}
-              content={currentNotification?.message}
-              isRead={currentNotification?.isRead}
-            />:null}
-            
+            {currentNotification ? (
+              <NotificationInfo
+                id={currentNotification?.id}
+                title={currentNotification?.title}
+                createdAt={currentNotification?.createdAt}
+                senderName={currentNotification?.senderName}
+                sendEmail={currentNotification?.senderEmail}
+                content={currentNotification?.message}
+                isRead={currentNotification?.isRead}
+              />
+            ) : null}
           </div>
         </main>
       </div>

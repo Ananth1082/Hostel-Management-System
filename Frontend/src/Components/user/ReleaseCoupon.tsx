@@ -9,8 +9,6 @@ import {
   CardContent,
   CardFooter,
 } from "../ui/card";
-import { Button } from "../ui/button";
-import H3 from "../Typography/H3";
 
 export default function ReleaseCoupon() {
   return (

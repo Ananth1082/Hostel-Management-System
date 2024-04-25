@@ -43,8 +43,8 @@ function Login() {
       // Login successful, handle the response (e.g., store authentication token)
       user = await response.json();
       console.log(user);
-      sessionStorage.setItem("user", JSON.stringify(user));
-      navigate("/");
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/user/dashboard");
       toast.success("Login was successfull", {
         action: {
           label: "Close",

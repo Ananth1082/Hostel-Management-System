@@ -12,19 +12,38 @@ import {
   PopoverTrigger,
 } from "@/Components/ui/popover";
 import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "@/getUserInfo";
 
 export default function MealsCalendar({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const navigate = useNavigate();
+  const user = getUserInfo(navigate);
+  const [cid, setCid] = React.useState("");
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2024, 3, 20),
     to: addDays(new Date(2024, 3, 20), 20),
   });
+  React.useEffect(() => {
+    fetch(`http://localhost:8080/coupon/get/${user.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.userCoupon !== null) {
+          setCid(data.userCoupon.couponCode);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
   const releaseCoupon = async () => {
     const startDate = date?.from ? format(date.from, "y-MM-dd") : null;
     const endDate = date?.to ? format(date.to, "y-MM-dd") : null;
     if (startDate && endDate) {
-      const req = { couponCode:"9Wl5E0C3aq",startDate: startDate, endDate: endDate };
+      const req = {
+        couponCode: cid,
+        startDate: startDate,
+        endDate: endDate,
+      };
       console.log(req);
 
       const response = await fetch("http://localhost:8080/coupon/release", {
@@ -52,7 +71,7 @@ export default function MealsCalendar({
       });
       const msg = await response.json();
       console.log(msg);
-    }else{
+    } else {
       toast.warning("Incorrect details", {
         description: "Please enter the from and to dates",
         action: {

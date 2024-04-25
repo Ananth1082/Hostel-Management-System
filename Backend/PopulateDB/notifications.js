@@ -1,28 +1,9 @@
 exports.notificationList = [
   {
-    title: "Vibe check",
-    message: "You have found to have lack of vibe no cap",
-    senderId: "NNM22CS001",
-    recipientId: "NNM22CS002"
-},
-
-{
-  title: "Vibe check",
-  message: "You have found to have lack of vibe no cap",
-  senderId: "NNM22CS001",
-  recipientId: "NNM22CS002"
-},
-{
-  title: "Vibe check",
-  message: "You have found to have lack of vibe no cap",
-  senderId: "NNM22CS001",
-  recipientId: "NNM22CS002"
-},
-{
-  title: "Vibe check",
-  message: "You have found to have lack of vibe no cap",
-  senderId: "NNM22CS001",
-  recipientId: "NNM22CS002"
+    title: "Room Allocation",
+    message: "You are supposed to write submit the form for choosing your room-mate and room number",
+    senderId: "NNM20HM001",
+    recipientId: "NNM22CS001"
 }
 
 

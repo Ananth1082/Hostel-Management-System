@@ -6,18 +6,24 @@ const ticket = db.ticket;
 
 exports.getUserCoupon = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const userCoupon = await coupon.findOne({
       where: { userId: userId },
     });
+    if (!userCoupon) {
+      return res
+        .status(404)
+        .json({ message: "User coupon not found", userCoupon: null });
+    }
     res
-      .status(201)
+      .status(200)
       .json({ message: "User coupon retrieved successfully", userCoupon });
   } catch (error) {
-    console.error("Error retrieving your coupon:", error);
+    console.error("Error retrieving user coupon:", error);
     res.status(500).json({ error: "Failed to retrieve user coupon" });
   }
 };
+
 
 exports.createCoupon = async (req, res) => {
   try {

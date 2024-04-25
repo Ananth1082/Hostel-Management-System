@@ -51,7 +51,7 @@ function Signup() {
       setMessage("Signup Successful");
       user = await response.json();
       console.log(user);
-      navigate("/")
+      navigate("/auth/signin");
 
 
     } catch (error: any) {

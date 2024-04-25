@@ -10,13 +10,17 @@ import {
   AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog";
 import { Button } from "@/Components/ui/button";
+import { getUserInfo } from "@/getUserInfo";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 
 export default function BuyCouponAlert() {
+  const navigate = useNavigate();
+  const user = getUserInfo(navigate);
   const [type, setType] = useState<string>("South");
   const createCoupon = async () => {
-    const req = { userId: "NNM22CS001", type: type };
+    const req = { userId: user.id, type: type };
 
     const response = await fetch("http://localhost:8080/coupon/create", {
       method: "POST",
@@ -48,7 +52,7 @@ export default function BuyCouponAlert() {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button>Show Dialog</Button>
+          <Button>Buy Coupon</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
