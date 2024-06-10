@@ -1,17 +1,16 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/Components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/Components/ui/avatar";
 
-interface Props{
-  imgSrc:string
+interface Props {
+  username?: string;
 }
-export function ProfileAvatar(props:Props) {
+export function ProfileAvatar(props: Props) {
   return (
     <Avatar>
-      <AvatarImage src={props.imgSrc} alt="@shadcn" />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarFallback>
+        {props.username
+          ? props.username.split(" ").map((word) => word.charAt(0))
+          : "CN"}
+      </AvatarFallback>
     </Avatar>
-  )
+  );
 }

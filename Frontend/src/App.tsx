@@ -15,12 +15,14 @@ import ServiceList from "./Pages/admin/clean-admin/serviceList";
 import UserRooms from "./Pages/student/Room";
 import UserDashboard from "./Pages/admin/hostel-admin/user_dashboard";
 import { User } from "lucide-react";
+import ViewsTest from "./Pages/ViewsTest";
 function App() {
   return (
     <>
       <Layout>
         <Routes>
-          <Route path="/404" element={<Page404 />} />
+          
+          <Route path="404" element={<Page404 />} />
 
           <Route path="auth" element={<Authenticate />}>
             <Route path="signup" element={<Signup />} />

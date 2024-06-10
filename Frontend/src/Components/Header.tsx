@@ -24,11 +24,25 @@ import {
 } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { getUserInfo } from "@/getUserInfo";
+import { ProfileAvatar } from "./hostel-admin/ProfileAvatar";
 
 export default function Header() {
   const navigate = useNavigate();
-  const user = getUserInfo(navigate);
+  const userStr = localStorage.getItem("user");
+  let user:any;
+  if (userStr == null) {
+    
+  } else {
+    user = JSON.parse(userStr);
+  }
+  const handleLogout = () => {
+    // Clear the user's authentication token or any other user-specific data
+    
+
+    // Navigate to the login page or any other desired route
+    navigate('/auth/signin');
+  };
+
   
   return (
     <aside className="fixed inset-y-0 left-0 hidden w-14 flex-col border-r bg-white sm:flex">
@@ -83,20 +97,7 @@ export default function Header() {
             <TooltipContent side="right">Meals</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                to="/user/user-info"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <UserRoundCog className="h-5 w-5" />
-                <span className="sr-only">User</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">User</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -111,7 +112,7 @@ export default function Header() {
             <TooltipContent side="right">Services</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {user.roles.find((role:any,_:number)=>role=='ROLE_MESS-ADMIN')==='ROLE_MESS-ADMIN' ?
+        {user?.roles.find((role:any,_:number)=>role=='ROLE_MESS-ADMIN')==='ROLE_MESS-ADMIN' ?
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -126,7 +127,7 @@ export default function Header() {
             <TooltipContent side="right">Mess Admin</TooltipContent>
           </Tooltip>
         </TooltipProvider>:null}
-        {user.roles.find((role:any)=>role=='ROLE_ADMIN')==='ROLE_ADMIN' ?
+        {user?.roles.find((role:any)=>role=='ROLE_ADMIN')==='ROLE_ADMIN' ?
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -140,7 +141,7 @@ export default function Header() {
             </TooltipTrigger>
             <TooltipContent side="right">Hostel Admin</TooltipContent>
           </Tooltip>
-          {user.roles.find((role:any)=>role=='ROLE_ADMIN')==='ROLE_ADMIN' ?
+          {user?.roles.find((role:any)=>role=='ROLE_ADMIN')==='ROLE_ADMIN' ?
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -156,7 +157,7 @@ export default function Header() {
           </Tooltip>
           </TooltipProvider>:null}
         </TooltipProvider>:null}
-        {user.roles.find((role:any)=>role=='ROLE_CLEAN-ADMIN')==='ROLE_CLEAN-ADMIN'?
+        {user?.roles.find((role:any)=>role=='ROLE_CLEAN-ADMIN')==='ROLE_CLEAN-ADMIN'?
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -183,13 +184,7 @@ export default function Header() {
                     size="icon"
                     className="overflow-hidden rounded-full"
                   >
-                    <img
-                      src="/placeholder-user.jpg"
-                      width={36}
-                      height={36}
-                      alt="Avatar"
-                      className="overflow-hidden rounded-full"
-                    />
+                    <ProfileAvatar username={user?.username}/>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -198,7 +193,7 @@ export default function Header() {
                   <DropdownMenuItem>Settings</DropdownMenuItem>
                   <DropdownMenuItem>Support</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TooltipTrigger>

@@ -7,6 +7,9 @@ import "./QrStyles.css";
 import QrScanner from "qr-scanner";
 import QrFrame from "./qr-frame.svg";
 import { Toaster, toast } from "sonner";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { format } from "path";
 
 interface RequestData {
   couponCode?: String;
@@ -21,7 +24,14 @@ const QrReader = () => {
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
   const [msg, setMsg] = useState<String>("");
-
+  const [formData, setFormData] = useState({ date: "", meal: "" });
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
 
@@ -43,8 +53,8 @@ const QrReader = () => {
   const sendData = () => {
     const reqData: RequestData = {
       couponCode: scannedResult,
-      date: "2024-04-24",
-      meal: "Breakfast",
+      date: formData.date,
+      meal: formData.meal,
     };
     fetch("http://localhost:8080/mess/coupon/check", {
       method: "POST",
@@ -144,36 +154,63 @@ const QrReader = () => {
   }, [scannedResult]);
 
   return (
-    <div className="qr-reader">
-      {/* QR */}
-      <video ref={videoEl}></video>
-      <div ref={qrBoxEl} className="qr-box">
-        <img
-          src={QrFrame}
-          alt="Qr Frame"
-          width={256}
-          height={256}
-          className="qr-frame"
-        />
-      </div>
+    <>
+      <div className="qr-reader ">
+        {/* QR */}
 
-      {/* Show Data Result if scan is success */}
-      {scannedResult && (
-        <p
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 99999,
-            color: "white",
-          }}
-        >
-          Scanned Result: {scannedResult}
-        </p>
-      )}
-      <h1>{msg}</h1>
-      <Toaster position="top-left"/>
-    </div>
+        <video ref={videoEl}></video>
+        <div ref={qrBoxEl} className="qr-box">
+          <img
+            src={QrFrame}
+            alt="Qr Frame"
+            width={256}
+            height={256}
+            className="qr-frame"
+          />
+        </div>
+
+        {/* Show Data Result if scan is success */}
+        {scannedResult && (
+          <p
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 99999,
+              color: "white",
+            }}
+          >
+            Scanned Result: {scannedResult}
+          </p>
+        )}
+        <h1>{msg}</h1>
+        <Toaster position="top-left" />
+      </div>
+      <div>
+        <div className="grid gap-2">
+          <Label htmlFor="Date">Date</Label>
+          <Input
+            type="text"
+            id="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="meal">meal</Label>
+          <Input
+            type="text"
+            id="meal"
+            name="meal"
+            value={formData.meal}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </div>
+    </>
   );
 };
 

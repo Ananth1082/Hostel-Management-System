@@ -160,7 +160,7 @@ export default function CouponsList() {
                 size="icon"
                 className="overflow-hidden rounded-full"
               >
-                <ProfileAvatar imgSrc="https://github.com/shadcn.png" />
+                <ProfileAvatar />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -231,7 +231,7 @@ export default function CouponsList() {
                   <CardDescription><H3>to check your meal ticket</H3></CardDescription>
                 </CardHeader>
                 <CardContent className="flex">
-                  
+                  <div></div>
                   <QrReader />
                 </CardContent>
                 <CardFooter></CardFooter>

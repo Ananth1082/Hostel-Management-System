@@ -1,15 +1,4 @@
-import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  Menu,
-  Package2,
-  Search,
-  Users,
-  University,
-  Smile,
-} from "lucide-react";
+import { Activity, ArrowUpRight, CreditCard, Users, Smile } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import { Badge } from "@/Components/ui/badge";
@@ -22,16 +11,6 @@ import {
   CardTitle,
 } from "@/Components/ui/card";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
-import { Input } from "@/Components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
-import {
   Table,
   TableBody,
   TableCell,
@@ -40,10 +19,10 @@ import {
   TableRow,
 } from "@/Components/ui/table";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { testUser } from "@/testUser";
+import ViewsTest from "./ViewsTest";
 
 export default function Dashboard() {
+  ViewsTest();
   const navigate = useNavigate();
   // get user item from local storage
   let user: any;

@@ -37,7 +37,7 @@ export default function MealsGreetingCard() {
         <CardHeader>
           <CardTitle>
             <H2>
-              Hungry, Username 😋 <br />
+              Hungry, {user?user.username:"User"} 😋 <br />
               Just scan the qr code
             </H2>
           </CardTitle>
