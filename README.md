@@ -15,13 +15,19 @@ This is mini project for dbms course
 4. React + Typescript Frontend
 
 ## Runnning the project
-1. To run the server
+1. Install dependencies
+```sh
+cd backend && npm i
+cd frontend && npm i
+```
+
+3. To run the server
 ```sh
 cd backend
 node server.js
 ```
 
-2. To run the frontend
+3. To run the frontend
 ```sh
 cd frontend
 npm run dev
