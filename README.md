@@ -13,3 +13,16 @@ This is mini project for dbms course
 2. Sqlize ORM
 3. Postgres Database
 4. React + Typescript Frontend
+
+## Runnning the project
+1. To run the server
+```sh
+cd backend
+node server.js
+```
+
+2. To run the frontend
+```sh
+cd frontend
+npm run dev
+```
